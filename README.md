@@ -104,7 +104,25 @@ While the page is waiting for the response, an appropriate message should be dis
 
 # Dependencies
 
-`gradle`: make sure is correctly installed on your machine. `brew` can help you with the installation if you are using a Mac Machine. For Windows users you can follow the installation steps on the gradle website: https://gradle.org/install/
+## Install Gradle
+
+Click to install:
+https://gradle.org/next-steps/?version=5.4.1&format=all
+
+And then in terminal:
+```cmd
+cd ~/Downloads
+sudo mkdir /opt/gradle
+unzip -d /opt/gradle gradle-5.4.1-all.zip
+export PATH=$PATH:/opt/gradle/gradle-5.4.1/bin
+```
+
+## Install Java 8
+
+```cmd
+brew install adoptopenjdk/openjdk/adoptopenjdk8 
+export JAVA_HOME='/Library/Java/JavaVirtualMachines/adoptopenjdk-8.jdk/Contents/Home/' 
+```
 
 ## Useful commands
 

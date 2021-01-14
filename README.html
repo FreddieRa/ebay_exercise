@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Take home exercise</title>
+        <style>
+</style>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/katex.min.css" integrity="sha384-yFRtMMDnQtDRO8rLpMIKrtPCD5jdktao2TV19YiZYWMDkUR5GQZR/NOVTdquEx1j" crossorigin="anonymous">
+<link href="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.css" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item { list-style-type: none; } .task-list-item-checkbox { margin-left: -20px; vertical-align: middle; }
+</style>
+        
+        <script src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
+        
+    </head>
+    <body class="vscode-body vscode-light">
+        <h1 id="take-home-exercise">Take home exercise</h1>
+<p><strong>Do NOT fork this repo! Please read the instructions carefully and follow the instructions for submitting your work below.</strong></p>
+<p>For our tech test, we'd like you to take a stripped-down version of our quoting engine, and then add some features. This is a RESTful service endpoint that takes a few details and works out the price for a delivery.</p>
+<p>Throughout the test we're looking for great coding style, driving your code through tests (and refactoring) and at all times doing the bare minimum possible to get the job done. If you don't like the code or tests that are there already, feel free to refactor as you add features.</p>
+<p>Please ensure that the features you complete are done to a standard that you're happy with, taking into account the time guideline below. Please complete the features in order.</p>
+<p>Read this document thoroughly before starting your work. You are welcome to contact us if you have any question.</p>
+<p>Please ensure that you include a readme file with any commands/thoughts/assumptions or anything else you would like us to know about your solution.</p>
+<p>Good luck! :)</p>
+<h3 id="time-guideline">Time guideline:</h3>
+<p>We recommend spending no more than 3 hours completing this exercise.</p>
+<h3 id="submitting-your-work">Submitting your work:</h3>
+<p>To submit, please clone this repo and then push it onto your own GitHub account. <strong>Do not fork this repo!</strong> Then make the changes as you see fit. When you completed the test, please email the link to YOUR repo/pull request to
+<a href="mailto:DL-eBay-Shipping-London-Intern-Hiring@ebay.com">DL-eBay-Shipping-London-Intern-Hiring@ebay.com</a>. There is no deadline for submission but keep in mind that we will review the PRs in the order they come in.</p>
+<h2 id="completed-feature">Completed Feature</h2>
+<h3 id="basic-service">Basic Service</h3>
+<p>Build a basic service that responds to a POST to /quotes, with the following request structure:</p>
+<pre><code><code><div>{
+  &quot;pickup_postcode&quot;:   &quot;SW1A1AA&quot;,
+  &quot;delivery_postcode&quot;: &quot;EC2A3LT&quot;
+}
+</div></code></code></pre>
+<p>And responds with the following price:</p>
+<pre><code><code><div>{
+  &quot;pickup_postcode&quot;:   &quot;SW1A1AA&quot;,
+  &quot;delivery_postcode&quot;: &quot;EC2A3LT&quot;,
+  &quot;price&quot;:             316
+}
+</div></code></code></pre>
+<p>The price we charge depends on the distance between two postcodes. We are not implementing postcode geocoding here, so instead we are using basic formula for working out the price for a quote between two postcodes. The process is to take the base-36 integer of each postcode, subtract the delivery postcode from the pickup postcode and then divide by some large number. If the result is negative, turn it into a positive.</p>
+<p>Hint: in java, this would be:</p>
+<p><code>Long.valueOf(&quot;SW1A1AA&quot;, 36) - Long.valueOf(&quot;EC2A3LT&quot;, 36)</code></p>
+<p>If you have a better idea for a deterministic way of making a number from two postcodes, please feel free to use that instead. Update your service to calculate pricing based upon these rules.</p>
+<h2 id="features-to-complete">Features to complete</h2>
+<h3 id="1-simple-variable-prices-by-vehicle">1) Simple variable prices by vehicle</h3>
+<p>Our price changes based upon the vehicle. Implement a &quot;vehicle&quot; attribute on the request, that takes one of the following values, applying the appropriate markup:</p>
+<ul>
+<li>bicycle: 10%</li>
+<li>motorbike: 15%</li>
+<li>parcel_car: 20%</li>
+<li>small_van: 30%</li>
+<li>large_van: 40%</li>
+</ul>
+<p>For example, if the base price was 100, the <code>small_van</code> price with markup will be 130.
+The vehicle should also be returned in the response, and the price should be rounded to the nearest integer.</p>
+<p>Request:</p>
+<pre><code><code><div>{
+  &quot;pickup_postcode&quot;:   &quot;SW1A1AA&quot;,
+  &quot;delivery_postcode&quot;: &quot;EC2A3LT&quot;,
+  &quot;vehicle&quot;: &quot;bicycle&quot;
+}
+</div></code></code></pre>
+<p>Response:</p>
+<pre><code><code><div>{
+  &quot;pickup_postcode&quot;:   &quot;SW1A1AA&quot;,
+  &quot;delivery_postcode&quot;: &quot;EC2A3LT&quot;
+  &quot;vehicle&quot;: &quot;bicycle&quot;
+  &quot;price&quot;: 348
+}
+</div></code></code></pre>
+<h3 id="2-build-an-interface-for-your-app">2) Build an interface for your app!</h3>
+<p>Build a webpage that makes the above call.</p>
+<p>It should contain a form with the following fields:
+<code>pickup_postcode</code>, <code>delivery_postcode</code> and <code>vehicle</code>.</p>
+<p>Under the form, based on the response, list the price in the following format:
+<code>A delivery from &lt;pickup_postcode&gt; to &lt;delivery_postcode&gt; using a &lt;vehicle&gt; will cost you £&lt;price&gt;.</code>
+Substitute the variables in the &lt;&gt; with the appropriate values.</p>
+<p>While the page is waiting for the response, an appropriate message should be displayed.</p>
+<p><strong>Bonus</strong>:</p>
+<ul>
+<li>Make sure that the page displays well both on smaller and larger screens, ie that is <code>responsive</code>.</li>
+<li>The action linked to the submit button could retrieve the data from the service without refreshing the page.</li>
+</ul>
+<h1 id="dependencies">Dependencies</h1>
+<h2 id="install-gradle">Install Gradle</h2>
+<p>Click to install:
+<a href="https://gradle.org/next-steps/?version=5.4.1&amp;format=all">https://gradle.org/next-steps/?version=5.4.1&amp;format=all</a></p>
+<p>And then in terminal:</p>
+<pre><code class="language-cmd"><div><span class="hljs-built_in">cd</span> ~/Downloads
+sudo <span class="hljs-built_in">mkdir</span> /opt/gradle
+unzip -d /opt/gradle gradle-<span class="hljs-number">5</span>.<span class="hljs-number">4</span>.<span class="hljs-number">1</span>-all.zip
+export <span class="hljs-built_in">PATH</span>=$<span class="hljs-built_in">PATH</span>:/opt/gradle/gradle-<span class="hljs-number">5</span>.<span class="hljs-number">4</span>.<span class="hljs-number">1</span>/bin
+</div></code></pre>
+<h2 id="install-java-8">Install Java 8</h2>
+<pre><code class="language-cmd"><div>brew install adoptopenjdk/openjdk/adoptopenjdk8 
+export JAVA_HOME=&#x27;/Library/Java/JavaVirtualMachines/adoptopenjdk-<span class="hljs-number">8</span>.jdk/Contents/Home/&#x27; 
+</div></code></pre>
+<h2 id="useful-commands">Useful commands</h2>
+<p>Run tests from command line:</p>
+<pre><code><code><div>gradle test
+</div></code></code></pre>
+<p>Run server locally:</p>
+<pre><code><code><div>gradle bootRun
+</div></code></code></pre>
+<p>Make quote request:</p>
+<pre><code><code><div>echo '{&quot;pickupPostcode&quot;: &quot;SW1A1AA&quot;, &quot;deliveryPostcode&quot;: &quot;EC2A3LT&quot; }' | \
+curl -d @- http://localhost:8080/quote --header &quot;Content-Type:application/json&quot;
+</div></code></code></pre>
+<h2 id="troubleshooting">Troubleshooting</h2>
+<p>Some version configurations cause Gradle to not be able to find the main class. To fix this, add the following to the end of the build.gradle file</p>
+<pre><code><code><div>springBoot {
+    mainClass = &quot;com.shutl.Application&quot;
+}
+</div></code></code></pre>
+<p>The build has been tested for Gradle 5.4.1 and Java 8</p>
+
+    </body>
+    </html>

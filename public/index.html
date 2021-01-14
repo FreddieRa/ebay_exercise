@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Home</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" />
+    <link rel="stylesheet" href="tailwind.css" />
+    <link rel="stylesheet" href="dots.css" />
+</head>
+
+<body>
+
+    <div class="relative flex items-top justify-center min-h-screen bg-white dark:bg-gray-900 sm:items-center sm:pt-0">
+        <div class="max-w-6xl mx-auto sm:px-6 lg:px-8">
+            <div class="mt-6 overflow-hidden">
+                <div class="grid grid-cols-1 md:grid-cols-2">
+                    <!-- Postcode Entry Form -->
+                    <form class="p-6 flex flex-col items-center">
+                        <!-- Title -->
+                        <h1
+                            class="text-4xl sm:text-5xl text-center text-gray-800 dark:text-white font-extrabold tracking-tight">
+                            Postcodes
+                        </h1>
+
+                        <!-- Pickup input -->
+                        <div class="flex items-center mt-2 text-gray-600 dark:text-gray-400">
+                            <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                stroke-width="1.5" viewBox="0 0 24 24" class="w-8 h-8 text-gray-500">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                    d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                    d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                            </svg>
+                            <div class="flex flex-col">
+                                <label for="name" class="hidden">Pickup</label>
+                                <input type="name" name="name" id="pickup" placeholder="Pickup"
+                                    class="w-100 mt-1 ml-4 py-3 px-3 rounded-lg bg-white dark:bg-gray-800 border border-gray-400 dark:border-gray-700 text-gray-800 font-semibold focus:border-indigo-500 focus:outline-none">
+                            </div>
+                        </div>
+
+                        <!-- Delivery input -->
+                        <div class="flex items-center mt-2 text-gray-600 dark:text-gray-400">
+                            <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                stroke-width="1.5" viewBox="0 0 24 24" class="w-8 h-8 text-gray-500">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                    d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                    d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                            </svg>
+                            <div class="flex flex-col">
+                                <label for="name" class="hidden">Delivery</label>
+                                <input type="name" name="name" id="delivery" placeholder="Delivery"
+                                    class="w-100 mt-1 ml-4 py-3 px-3 rounded-lg bg-white dark:bg-gray-800 border border-gray-400 dark:border-gray-700 text-gray-800 font-semibold focus:border-indigo-500 focus:outline-none">
+                            </div>
+                        </div>
+
+                        <!-- Vehicle dropdown -->
+                        <div class="relative inline-flex mt-4">
+                            <svg class="w-2 h-2 absolute top-0 right-0 m-4 pointer-events-none"
+                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 412 232">
+                                <path
+                                    d="M206 171.144L42.678 7.822c-9.763-9.763-25.592-9.763-35.355 0-9.763 9.764-9.763 25.592 0 35.355l181 181c4.88 4.882 11.279 7.323 17.677 7.323s12.796-2.441 17.678-7.322l181-181c9.763-9.764 9.763-25.592 0-35.355-9.763-9.763-25.592-9.763-35.355 0L206 171.144z"
+                                    fill="#648299" fill-rule="nonzero" />
+                            </svg>
+                            <select id="vehicle"
+                                class="border border-gray-300 rounded-full text-gray-600 h-10 pl-5 pr-10 bg-white hover:border-gray-400 focus:outline-none appearance-none">
+                                <option value="" selected disabled hidden>Vehicle Type</option>
+                                <option value="bicycle">Bicycle</option>
+                                <option value="motorbike">Motorbike</option>
+                                <option value="parcel_car">Parcel Car</option>
+                                <option value="small_van">Small Van</option>
+                                <option value="large_van">Large Van</option>
+
+                            </select>
+                        </div>
+
+                        <!-- Get Quote button -->
+                        <button type="button"
+                            class="md:w-32 bg-indigo-600 hover:bg-blue-dark text-white font-bold py-3 px-6 rounded-lg mt-3 hover:bg-indigo-500 transition ease-in-out duration-300"
+                            onClick="calcPrice()">
+                            Get Quote
+                        </button>
+                    </form>
+
+                    <!-- Details and results -->
+                    <div class="p-6 mr-2 bg-gray-100 dark:bg-gray-800 sm:rounded-lg items-center">
+                        <h1
+                            class="text-4xl sm:text-5xl text-gray-800 dark:text-white font-extrabold tracking-tight text-center">
+                            Details
+                        </h1>
+
+                        <div id="details"
+                            class="flex-col mt-8 text-gray-600 dark:text-gray-400 ml-4 text-md tracking-wide font-semibold w-80 text-center items-center">
+                            <div id="text">
+                                Fill in the form to see out quote for your delivery.
+                            </div>
+                            <div class="flex sk-chase content-center m-auto" style="display:none" id="dots">
+                                <div class="sk-chase-dot"></div>
+                                <div class="sk-chase-dot"></div>
+                                <div class="sk-chase-dot"></div>
+                                <div class="sk-chase-dot"></div>
+                                <div class="sk-chase-dot"></div>
+                                <div class="sk-chase-dot"></div>
+                            </div>
+                            <div id="price" class="mt-8 font-bold text-5xl">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>
