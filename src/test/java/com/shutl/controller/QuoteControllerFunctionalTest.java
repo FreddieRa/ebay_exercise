@@ -76,4 +76,88 @@ public class QuoteControllerFunctionalTest {
         assertEquals(quote.getDeliveryPostcode(), "EC2A3LT");
         assertEquals(quote.getPrice(), Long.valueOf(305));
     }
+
+    @Test
+    public void testVariablePricingByDistanceWithVehicle() throws Exception {
+        Quote quoteData = new Quote("SW1A1AA", "EC2A3LT", "bicycle");
+        MvcResult result = this.mockMvc.perform(post("/quote")
+                .contentType("application/json")
+                .content(objectMapper.writeValueAsString(quoteData)))
+            .andExpect(status().isOk())
+            .andReturn();
+
+        Quote quote = objectMapper.readValue(result.getResponse().getContentAsString(), Quote.class);
+        assertEquals(quote.getPickupPostcode(), "SW1A1AA");
+        assertEquals(quote.getDeliveryPostcode(), "EC2A3LT");
+        assertEquals(quote.getVehicle(), "bicycle");
+        assertEquals(quote.getPrice(), Long.valueOf(348));
+
+        quoteData = new Quote("AL15WD", "EC2A3LT", "bicycle");
+        result = this.mockMvc.perform(post("/quote")
+                .contentType("application/json")
+                .content(objectMapper.writeValueAsString(quoteData)))
+            .andExpect(status().isOk())
+            .andReturn();
+
+        quote = objectMapper.readValue(result.getResponse().getContentAsString(), Quote.class);
+        assertEquals(quote.getPickupPostcode(), "AL15WD");
+        assertEquals(quote.getDeliveryPostcode(), "EC2A3LT");
+        assertEquals(quote.getVehicle(), "bicycle");
+        assertEquals(quote.getPrice(), Long.valueOf(336));
+    }
+
+    @Test
+    public void testVariablePricingByDistanceAllVehicles() throws Exception {
+        Quote quoteData = new Quote("AL15WD", "EC2A3LT", "motorbike");
+        MvcResult result = this.mockMvc.perform(post("/quote")
+                .contentType("application/json")
+                .content(objectMapper.writeValueAsString(quoteData)))
+            .andExpect(status().isOk())
+            .andReturn();
+
+        Quote quote = objectMapper.readValue(result.getResponse().getContentAsString(), Quote.class);
+        assertEquals(quote.getPickupPostcode(), "AL15WD");
+        assertEquals(quote.getDeliveryPostcode(), "EC2A3LT");
+        assertEquals(quote.getVehicle(), "motorbike");
+        assertEquals(quote.getPrice(), Long.valueOf(351));
+
+        quoteData = new Quote("AL15WD", "EC2A3LT", "parcel_car");
+        result = this.mockMvc.perform(post("/quote")
+                .contentType("application/json")
+                .content(objectMapper.writeValueAsString(quoteData)))
+            .andExpect(status().isOk())
+            .andReturn();
+
+        quote = objectMapper.readValue(result.getResponse().getContentAsString(), Quote.class);
+        assertEquals(quote.getPickupPostcode(), "AL15WD");
+        assertEquals(quote.getDeliveryPostcode(), "EC2A3LT");
+        assertEquals(quote.getVehicle(), "parcel_car");
+        assertEquals(quote.getPrice(), Long.valueOf(366));
+
+        quoteData = new Quote("AL15WD", "EC2A3LT", "small_van");
+        result = this.mockMvc.perform(post("/quote")
+                .contentType("application/json")
+                .content(objectMapper.writeValueAsString(quoteData)))
+            .andExpect(status().isOk())
+            .andReturn();
+
+        quote = objectMapper.readValue(result.getResponse().getContentAsString(), Quote.class);
+        assertEquals(quote.getPickupPostcode(), "AL15WD");
+        assertEquals(quote.getDeliveryPostcode(), "EC2A3LT");
+        assertEquals(quote.getVehicle(), "small_van");
+        assertEquals(quote.getPrice(), Long.valueOf(397));
+
+        quoteData = new Quote("AL15WD", "EC2A3LT", "large_van");
+        result = this.mockMvc.perform(post("/quote")
+                .contentType("application/json")
+                .content(objectMapper.writeValueAsString(quoteData)))
+            .andExpect(status().isOk())
+            .andReturn();
+
+        quote = objectMapper.readValue(result.getResponse().getContentAsString(), Quote.class);
+        assertEquals(quote.getPickupPostcode(), "AL15WD");
+        assertEquals(quote.getDeliveryPostcode(), "EC2A3LT");
+        assertEquals(quote.getVehicle(), "large_van");
+        assertEquals(quote.getPrice(), Long.valueOf(427));
+    }
 }
